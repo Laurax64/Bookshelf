@@ -32,10 +32,3 @@ class NetworkBooksRepository(
     override suspend fun getBooks(): List<Book> = bookshelfApiService.getBooks()
 }
 
-class BookshelfApplication: Application(){
-    lateinit var container: AppContainer
-    override fun onCreate() {
-        super.onCreate()
-        container = DefaultAppContainer()
-    }
-}

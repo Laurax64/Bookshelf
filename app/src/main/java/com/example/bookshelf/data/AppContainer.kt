@@ -22,9 +22,6 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 
-/**
- * Provides repository for the [BookshelfViewModel]
- */
 interface AppContainer {
     val booksRepository: BooksRepository
 }

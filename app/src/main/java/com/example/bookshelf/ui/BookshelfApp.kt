@@ -35,38 +35,33 @@ import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.bookshelf.R
 import com.example.bookshelf.ui.screens.BookshelfViewModel
+import com.example.bookshelf.ui.screens.BookshelfViewModel.Companion.Factory
 import com.example.bookshelf.ui.screens.HomeScreen
 
 /**
- * Displays top bar and home screen
+ * Displays [BookshelfTopAppBar], creates the [BookshelfViewModel] with the [Factory] companion
+ * object and displays [HomeScreen]
  */
 @Composable
-fun BookshelfApp() {
-    Scaffold(topBar = { BookshelfTopAppBar() }) {
-        Surface(modifier = Modifier.fillMaxSize().padding(it))
-        {
-            val bookshelfViewModel: BookshelfViewModel = viewModel(
-                factory = BookshelfViewModel.Factory)
-          HomeScreen(
-                bookshelfUiState = bookshelfViewModel.bookshelfUiState,
-                retryAction = bookshelfViewModel::getBooks
-            )
+fun BookshelfApp(modifier: Modifier = Modifier) {
+    Scaffold(topBar = { BookshelfTopAppBar(modifier) }){
+        Surface(modifier.fillMaxSize().padding(it)) {
+            val bookshelfViewModel: BookshelfViewModel = viewModel(factory = Factory)
+            HomeScreen(bookshelfViewModel.bookshelfUiState, bookshelfViewModel::getBooks, modifier)
         }
     }
 }
 
-
+/**
+ * Displays a Top Bar with the app name and a navigation icon
+ */
 @Composable
 fun BookshelfTopAppBar(modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
-        title = {
-            Text(text = "Bookshelf",
-                style = MaterialTheme.typography.titleLarge)
-        },
-        navigationIcon = {
-            IconButton(onClick = { }) {
-                Icon(painterResource(id = R.drawable.menu), "Open menu button")
-            }},
+        title = { Text(text = "Bookshelf", style = MaterialTheme.typography.titleLarge) },
+        navigationIcon = { IconButton(onClick = {/*TODO*/}) { Icon(
+            painter = painterResource(R.drawable.menu), contentDescription = "Menu Button") }
+                         },
         modifier = modifier)
 }
 
