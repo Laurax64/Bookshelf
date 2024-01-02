@@ -31,7 +31,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.bookshelf.R
-import com.example.bookshelf.model.Book
+import com.example.bookshelf.model.Books
+import com.example.bookshelf.model.Item
 import com.example.bookshelf.ui.theme.BookshelfTheme
 
 @Composable
@@ -40,9 +41,7 @@ fun HomeScreen(
 ) {
     when (bookshelfUiState) {
         is BookshelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is BookshelfUiState.Success -> BooksList(
-            bookshelfUiState.books, modifier = modifier.fillMaxWidth()
-        )
+        is BookshelfUiState.Success -> BooksList(bookshelfUiState.books, modifier.fillMaxWidth())
 
         is BookshelfUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
@@ -79,11 +78,11 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BooksList(books: List<Book>, modifier: Modifier = Modifier) {
+fun BooksList(books: Books, modifier: Modifier = Modifier) {
     LazyColumn(modifier = modifier) {
-        items(items = books, key = { book -> book.items[0].id }) { book ->
+        items(items = books.items) { item ->
             BookCard(
-                book,
+                item,
                 modifier = modifier
                     .padding(4.dp)
                     .fillMaxWidth()
@@ -94,7 +93,7 @@ fun BooksList(books: List<Book>, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun BookCard(book: Book, modifier: Modifier = Modifier) {
+fun BookCard(item: Item, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,
@@ -103,19 +102,20 @@ fun BookCard(book: Book, modifier: Modifier = Modifier) {
         Row() {
             AsyncImage(
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(book.items[0].volumeInfo.imageLinks.thumbnail)
+                    .data(item.volumeInfo.imageLinks.thumbnail
+                        .replace("http", "https"))
                     .crossfade(true).build(),
                 error = painterResource(R.drawable.ic_broken_image),
                 placeholder = painterResource(R.drawable.loading_img),
                 modifier = Modifier
                     .clip(RoundedCornerShape(50.dp))
                     .size(90.dp),
-                contentDescription = (book.items[0].volumeInfo.title),
+                contentDescription = (item.volumeInfo.title),
                 contentScale = ContentScale.Crop
             )
             Column(modifier = Modifier.padding(1.dp)) {
-                Text(book.items[0].volumeInfo.title, style = MaterialTheme.typography.headlineSmall)
-                Text(book.items[0].volumeInfo.authors.toString())
+                Text(item.volumeInfo.title, style = MaterialTheme.typography.headlineSmall)
+                Text(item.volumeInfo.authors.toString())
             }
         }
     }

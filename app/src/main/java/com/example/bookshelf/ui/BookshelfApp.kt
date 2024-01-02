@@ -55,6 +55,7 @@ fun BookshelfApp(modifier: Modifier = Modifier) {
 /**
  * Displays a Top Bar with the app name and a navigation icon
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookshelfTopAppBar(modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(

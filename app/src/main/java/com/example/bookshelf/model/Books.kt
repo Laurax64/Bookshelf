@@ -19,7 +19,7 @@ package com.example.bookshelf.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Book(
+data class Books(
     val kind: String,
     val totalItems: Int,
     val items: List<Item>

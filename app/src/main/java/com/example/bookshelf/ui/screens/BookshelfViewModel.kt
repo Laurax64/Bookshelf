@@ -11,7 +11,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bookshelf.BookshelfApplication
 import com.example.bookshelf.data.BooksRepository
-import com.example.bookshelf.model.Book
+import com.example.bookshelf.model.Books
 import com.example.bookshelf.ui.screens.BookshelfUiState.Error
 import com.example.bookshelf.ui.screens.BookshelfUiState.Loading
 import com.example.bookshelf.ui.screens.BookshelfUiState.Success
@@ -82,15 +82,15 @@ sealed interface BookshelfUiState {
     /**
      * UI state value, if there are any network or connection errors
      */
-    data object Error : BookshelfUiState
+    object Error : BookshelfUiState
 
     /**
      * UI state value, if the app is waiting for data
      */
-    data object Loading : BookshelfUiState
+    object Loading : BookshelfUiState
 
     /**
      * UI state value, if the data was successfully retrieved from the web service
      */
-    data class Success(val books: List<Book>) : BookshelfUiState
+    data class Success(val books: Books) : BookshelfUiState
 }

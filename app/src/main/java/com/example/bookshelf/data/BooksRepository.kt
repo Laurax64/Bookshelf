@@ -16,19 +16,21 @@
 
 package com.example.bookshelf.data
 
-import android.app.Application
-import com.example.bookshelf.model.Book
+import com.example.bookshelf.model.Books
 import com.example.bookshelf.network.BookshelfApiService
 
 /**
  * Returns a list of books
  */
 interface BooksRepository {
-    suspend fun getBooks(): List<Book>
+    suspend fun getBooks(): Books
 }
 
+/**
+ * Sets [BooksRepository.getBooks] to [BookshelfApiService.getBooks]
+ */
 class NetworkBooksRepository(
     private val bookshelfApiService: BookshelfApiService) : BooksRepository {
-    override suspend fun getBooks(): List<Book> = bookshelfApiService.getBooks()
+    override suspend fun getBooks(): Books = bookshelfApiService.getBooks()
 }
 

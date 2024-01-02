@@ -17,25 +17,34 @@
 package com.example.bookshelf.data
 
 import com.example.bookshelf.network.BookshelfApiService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
+/**
+ * Contains the dependencies that the Bookshelf app requires.
+ */
 interface AppContainer {
     val booksRepository: BooksRepository
 }
 
+/**
+ * Default app container
+ *
+ * @property baseUrl The base URL
+ * @property retrofit The retrofit object
+ * @property retrofitService The retrofit service
+ */
 class DefaultAppContainer : AppContainer {
-
-    private val baseUrl = "https://www.googleapis.com/books/v1/"
+    private val baseUrl = "https://www.googleapis.com/books/v1/volumes/"
 
     private val retrofit: Retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(baseUrl)
         .build()
 
-
+    /**
+     * Implementation of the API endpoints defined by the [BookshelfApiService]
+     */
     private val retrofitService: BookshelfApiService by lazy {
         retrofit.create(BookshelfApiService::class.java)
     }

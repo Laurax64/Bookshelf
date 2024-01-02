@@ -16,11 +16,15 @@
 
 package com.example.bookshelf.network
 
-import com.example.bookshelf.model.Book
+import com.example.bookshelf.model.Books
 import retrofit2.http.GET
 
+/**
+ * Interface to define the API endpoints, defines how Retrofit talks to the web server
+ * using HTTP requests
+ */
 interface BookshelfApiService {
-    @GET("jazz+history")
-    suspend fun getBooks(): List<Book>
+    @GET("?q=jazz+history")
+    suspend fun getBooks(): Books
 }
 
