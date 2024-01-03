@@ -106,10 +106,6 @@ fun BookCard(item: Item, modifier: Modifier = Modifier) {
             )
 }
 
-
-
-
-
 @Preview(showBackground = true)
 @Composable
 fun LoadingScreenPreview() {

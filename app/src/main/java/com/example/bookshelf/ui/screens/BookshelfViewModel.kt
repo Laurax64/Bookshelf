@@ -49,9 +49,15 @@ class BookshelfViewModel(private val booksRepository: BooksRepository) : ViewMod
         viewModelScope.launch {
             bookshelfUiState = Loading
             bookshelfUiState =
-                try { Success(booksRepository.getBooks()) }
-                catch (e: IOException) { Error }
-                catch (e: HttpException) { Error }
+                try {
+                    Success(booksRepository.getBooks())
+                }
+                catch (e: IOException) {
+                    Error
+                }
+                catch (e: HttpException) {
+                    Error
+                }
         }
     }
 

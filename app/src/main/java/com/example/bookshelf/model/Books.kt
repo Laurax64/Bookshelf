@@ -20,21 +20,53 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Books(
-    val kind: String,
-    val totalItems: Int,
+    // val kind: String,
+    // val totalItems: Int,
     val items: List<Item>
 )
 
 @Serializable
 data class Item(
-    val accessInfo: AccessInfo,
+  /*val accessInfo: AccessInfo,
     val etag: String,
     val id: String,
     val kind: String,
     val saleInfo: SaleInfo,
     val searchInfo: SearchInfo,
-    val selfLink: String,
+    val selfLink: String, **/
     val volumeInfo: VolumeInfo
+)
+
+@Serializable
+data class VolumeInfo(
+    // val allowAnonLogging: Boolean,
+    val authors: List<String>,
+    /* val averageRating: Int,
+    val canonicalVolumeLink: String,
+    val categories: List<String>,
+    val contentVersion: String,
+    val description: String,*/
+    val imageLinks: ImageLinks,
+    /* val industryIdentifiers: List<IndustryIdentifier>,
+    val infoLink: String,
+    val language: String,
+    val maturityRating: String,
+    val pageCount: Int,
+    val panelizationSummary: PanelizationSummary,
+    val previewLink: String,
+    val printType: String,
+    val publishedDate: String,
+    val publisher: String,
+    val ratingsCount: Int,
+    val readingModes: ReadingModes,
+    val subtitle: String, */
+    val title: String
+)
+
+@Serializable
+data class ImageLinks(
+    // val smallThumbnail: String,
+    val thumbnail: String
 )
 
 @Serializable
@@ -55,12 +87,6 @@ data class AccessInfo(
 data class Epub(
     val acsTokenLink: String,
     val isAvailable: Boolean
-)
-
-@Serializable
-data class ImageLinks(
-    val smallThumbnail: String,
-    val thumbnail: String
 )
 
 @Serializable
@@ -132,30 +158,4 @@ data class SaleInfo(
     val offers: List<Offer>,
     val retailPrice: RetailPriceX,
     val saleability: String
-)
-
-@Serializable
-data class VolumeInfo(
-    val allowAnonLogging: Boolean,
-    val authors: List<String>,
-    val averageRating: Int,
-    val canonicalVolumeLink: String,
-    val categories: List<String>,
-    val contentVersion: String,
-    val description: String,
-    val imageLinks: ImageLinks,
-    val industryIdentifiers: List<IndustryIdentifier>,
-    val infoLink: String,
-    val language: String,
-    val maturityRating: String,
-    val pageCount: Int,
-    val panelizationSummary: PanelizationSummary,
-    val previewLink: String,
-    val printType: String,
-    val publishedDate: String,
-    val publisher: String,
-    val ratingsCount: Int,
-    val readingModes: ReadingModes,
-    val subtitle: String,
-    val title: String
 )
