@@ -1,24 +1,33 @@
 package com.example.bookshelf.ui.screens
 
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -72,10 +81,8 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 
 @Composable
 fun BooksList(books: Books, modifier: Modifier = Modifier) {
-    LazyVerticalGrid(GridCells.Adaptive(180.dp), modifier = modifier
-    ){
-        items(items = books.items) { item ->
-            BookCard(item, modifier = modifier)
+    LazyVerticalGrid(GridCells.Fixed(2)){
+        items(items = books.items) { item -> BookCard(item)
         }
     }
 }
@@ -85,26 +92,39 @@ fun BooksList(books: Books, modifier: Modifier = Modifier) {
  */
 @Composable
 fun BookCard(item: Item, modifier: Modifier = Modifier) {
-   /**
+    Card(modifier.size(
+        width = 180.dp, height = 240.dp).padding(8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White,
+            contentColor = Color.Black),
+        border = BorderStroke(0.1.dp, Color.Gray)
+    ) {
+        Column() {
             Text(
                 text = item.volumeInfo.title,
-                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                modifier = modifier.width(180.dp).height(50.dp)
             )
-            **/
             AsyncImage(
-                modifier = modifier.size(width = 120.dp, height = 200.dp),
+                modifier = modifier.size(width = 180.dp, height = 200.dp),
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(item.volumeInfo.imageLinks.thumbnail.
-                    replace("http", "https"))
+                    .data(
+                        item.volumeInfo.imageLinks.thumbnail.replace("http", "https")
+                    )
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
                 error = painterResource(id = R.drawable.ic_broken_image),
-                placeholder = painterResource(id = R.drawable.loading_img)
+                placeholder = painterResource(id = R.drawable.loading_img),
+                contentScale = ContentScale.Crop
             )
-}
+            }
+    }
+
+    }
+
+
 
 @Preview(showBackground = true)
 @Composable
