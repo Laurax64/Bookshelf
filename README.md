@@ -1,6 +1,6 @@
 # Android Compose Bookshelf App
 
-To practice the concepts I learned in [Unit 5](https://developer.android.com/courses/android-basics-compose/unit-5) of [Android Basics with Compose](https://developer.android.com/courses/android-basics-compose/course), including coroutines, Retrofit, and Gson, I build this app that displays a list of books with images from the Google Books API.
+To practice the concepts I learned in Unit 5 of [Android Basics with Compose](https://developer.android.com/courses/android-basics-compose/course), including coroutines, Retrofit, and Gson, I build this app that displays a list of books with images from the Google Books API.
 
 
 <img src="https://private-user-images.githubusercontent.com/56238822/294698334-e8422cf9-4135-42a2-b5df-96d220626823.jpg?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MDQ1NTQxNzYsIm5iZiI6MTcwNDU1Mzg3NiwicGF0aCI6Ii81NjIzODgyMi8yOTQ2OTgzMzQtZTg0MjJjZjktNDEzNS00MmEyLWI1ZGYtOTZkMjIwNjI2ODIzLmpwZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDAxMDYlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMTA2VDE1MTExNlomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWI5ZDc2OWY1MWVkMjlmNzRlNDVjZmI1MWRlMDNmYTFlNTk4ZmJjMzAxYjNmYjE5MjFjMzJhYTNkNTEwZGQ5Y2MmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.S8RoM65_qwcr5Fjy1EiYlQ55YpouMExux4FjJ6N78lk" width="150">
