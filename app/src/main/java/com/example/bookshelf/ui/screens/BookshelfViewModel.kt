@@ -50,8 +50,9 @@ class BookshelfViewModel(private val booksRepository: BooksRepository) : ViewMod
             bookshelfUiState = Loading
             bookshelfUiState =
                 try {
-                    Success(booksRepository.getBooks())
-                }
+                    val books = booksRepository.getBooks()
+                    Success(books)
+                    }
                 catch (e: IOException) {
                     Error
                 }
@@ -73,6 +74,9 @@ class BookshelfViewModel(private val booksRepository: BooksRepository) : ViewMod
             }
         }
     }
+
+
+
 
 }
 

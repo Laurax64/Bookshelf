@@ -32,5 +32,4 @@ interface BooksRepository {
 class NetworkBookshelfRepository(
     private val bookshelfApiService: BookshelfApiService) : BooksRepository {
     override suspend fun getBooks(): Books = bookshelfApiService.getBooks()
-}
-
+    }

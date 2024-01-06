@@ -24,7 +24,7 @@ import retrofit2.http.GET
  * using HTTP requests
  */
 interface BookshelfApiService {
-    @GET("?q=jazz+history")
+    @GET("?q=dog+pets")
     suspend fun getBooks(): Books
 }
 

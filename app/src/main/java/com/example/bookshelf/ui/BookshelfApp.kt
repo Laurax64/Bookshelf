@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 @file:OptIn(ExperimentalMaterial3Api::class)
 
 package com.example.bookshelf.ui
@@ -23,17 +22,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.bookshelf.R
 import com.example.bookshelf.ui.screens.BookshelfViewModel
 import com.example.bookshelf.ui.screens.BookshelfViewModel.Companion.Factory
 import com.example.bookshelf.ui.screens.HomeScreen
@@ -60,9 +55,6 @@ fun BookshelfApp(modifier: Modifier = Modifier) {
 fun BookshelfTopAppBar(modifier: Modifier = Modifier) {
     CenterAlignedTopAppBar(
         title = { Text(text = "Bookshelf", style = MaterialTheme.typography.titleLarge) },
-        navigationIcon = { IconButton(onClick = {/*TODO*/}) { Icon(
-            painter = painterResource(R.drawable.menu), contentDescription = "Menu Button") }
-                         },
         modifier = modifier)
 }
 

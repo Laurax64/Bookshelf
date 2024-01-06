@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2023 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.example.bookshelf.ui.screens
 
 
@@ -37,14 +53,16 @@ import com.example.bookshelf.model.Books
 import com.example.bookshelf.model.Item
 import com.example.bookshelf.ui.theme.BookshelfTheme
 
+/**
+ * Displays the Bookshelf app home screen
+ */
 @Composable
 fun HomeScreen(
     bookshelfUiState: BookshelfUiState, retryAction: () -> Unit, modifier: Modifier = Modifier
 ) {
     when (bookshelfUiState) {
         is BookshelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is BookshelfUiState.Success -> BooksList(bookshelfUiState.books, modifier.fillMaxWidth())
-
+        is BookshelfUiState.Success -> BooksGrid(bookshelfUiState.books, modifier.fillMaxWidth())
         is BookshelfUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
     }
 }
@@ -71,20 +89,29 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Image(painterResource(R.drawable.ic_connection_error)," ")
-        Text(stringResource(R.string.loading_failed), modifier.padding(16.dp))
-        Button(onClick = retryAction) {
+        Image(painterResource(R.drawable.ic_connection_error), " ")
+        Text(stringResource(R.string.loading_failed), Modifier.padding(16.dp))
+        Button(onClick = retryAction)
+        {
             Text(stringResource(R.string.retry))
         }
     }
 }
 
+/**
+ * Displays a grid with book images and titles
+ */
 @Composable
-fun BooksList(books: Books, modifier: Modifier = Modifier) {
-    LazyVerticalGrid(GridCells.Fixed(2), modifier = modifier){
-        items(items = books.items) { item -> BookCard(item)
+fun BooksGrid(books: Books, modifier: Modifier = Modifier) {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(180.dp),
+        modifier = modifier,
+        content = {
+            items(books.items, key = {item -> item.id}) { item ->
+                BookCard(item)
+            }
         }
-    }
+    )
 }
 
 /**
@@ -92,26 +119,27 @@ fun BooksList(books: Books, modifier: Modifier = Modifier) {
  */
 @Composable
 fun BookCard(item: Item, modifier: Modifier = Modifier) {
-    Card(modifier.size(
-        width = 180.dp, height = 240.dp).padding(8.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White,
-            contentColor = Color.Black),
+    Card(
+        modifier = modifier
+            .size(width = 180.dp, height = 240.dp)
+            .padding(8.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White, contentColor = Color.Black),
         border = BorderStroke(0.1.dp, Color.Gray)
     ) {
-        Column() {
+        Column {
             Text(
                 text = item.volumeInfo.title,
                 textAlign = TextAlign.Center,
                 fontWeight = FontWeight.Bold,
-                modifier = modifier.width(180.dp).height(50.dp)
+                modifier = modifier
+                    .width(180.dp)
+                    .height(50.dp)
             )
             AsyncImage(
                 modifier = modifier.size(width = 180.dp, height = 200.dp),
                 model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(
-                        item.volumeInfo.imageLinks.thumbnail.replace("http", "https")
-                    )
+                    .data(item.volumeInfo.imageLinks.thumbnail
+                        .replace("http", "https"))
                     .crossfade(true)
                     .build(),
                 contentDescription = null,
@@ -119,10 +147,9 @@ fun BookCard(item: Item, modifier: Modifier = Modifier) {
                 placeholder = painterResource(id = R.drawable.loading_img),
                 contentScale = ContentScale.Crop
             )
-            }
+        }
     }
-
-    }
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -136,16 +163,6 @@ fun LoadingScreenPreview() {
 @Composable
 fun ErrorScreenPreview() {
     BookshelfTheme {
-        ErrorScreen({})
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PhotosGridScreenPreview() {
-    BookshelfTheme {
-       /** val mockData =
-        BooksList(mockData)
-        **/
+        ErrorScreen(retryAction = {})
     }
 }
