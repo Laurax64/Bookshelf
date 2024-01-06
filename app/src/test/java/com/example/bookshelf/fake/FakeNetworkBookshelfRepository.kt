@@ -1,9 +1,9 @@
 package com.example.bookshelf.fake
 
+import com.example.bookshelf.data.BooksRepository
 import com.example.bookshelf.model.Books
-import com.example.bookshelf.network.BookshelfApiService
 
-class FakeBookshelfApiService : BookshelfApiService {
+class FakeNetworkBookshelfRepository: BooksRepository {
     override suspend fun getBooks(): Books {
         return FakeDataSource.books
     }

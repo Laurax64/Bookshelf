@@ -29,7 +29,7 @@ interface BooksRepository {
 /**
  * Sets [BooksRepository.getBooks] to [BookshelfApiService.getBooks]
  */
-class NetworkBooksRepository(
+class NetworkBookshelfRepository(
     private val bookshelfApiService: BookshelfApiService) : BooksRepository {
     override suspend fun getBooks(): Books = bookshelfApiService.getBooks()
 }

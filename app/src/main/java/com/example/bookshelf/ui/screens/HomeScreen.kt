@@ -81,7 +81,7 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
 
 @Composable
 fun BooksList(books: Books, modifier: Modifier = Modifier) {
-    LazyVerticalGrid(GridCells.Fixed(2)){
+    LazyVerticalGrid(GridCells.Fixed(2), modifier = modifier){
         items(items = books.items) { item -> BookCard(item)
         }
     }
@@ -123,8 +123,6 @@ fun BookCard(item: Item, modifier: Modifier = Modifier) {
     }
 
     }
-
-
 
 @Preview(showBackground = true)
 @Composable
