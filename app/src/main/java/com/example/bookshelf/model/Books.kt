@@ -23,7 +23,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class Books(
-    val items: MutableList<Item>
+    val items: List<Item>
 )
 
 /**
