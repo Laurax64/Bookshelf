@@ -21,18 +21,12 @@ import java.io.IOException
 
 
 /**
- * Holds and initializes the ui state
+ * A view model for the books screen
  *
- * @property bookshelfUiState The UI state
+ * @param booksRepository The repository to access book data
  */
-class BookshelfViewModel(private val booksRepository: BooksRepository) : ViewModel() {
-
-    /**
-     * Represents the current state of the Bookshelf UI.
-     *
-     * Changes to this state trigger re-execution of affected composable functions.
-     */
-   var bookshelfUiState: BookshelfUiState by mutableStateOf(Loading)
+class BooksViewModel(private val booksRepository: BooksRepository) : ViewModel() {
+    var booksUiState: BookshelfUiState by mutableStateOf(Loading)
 
     /**
      * Initializes the ui state
@@ -43,12 +37,12 @@ class BookshelfViewModel(private val booksRepository: BooksRepository) : ViewMod
 
     /**
      * Launches a new coroutine in a [viewModelScope] without blocking the calling thread and
-     * updates [bookshelfUiState] inside of the coroutine
+     * updates the [booksUiState] inside of the coroutine
      */
     fun getBooks() {
         viewModelScope.launch {
-            bookshelfUiState = Loading
-            bookshelfUiState =
+            booksUiState = Loading
+            booksUiState =
                 try {
                     val books = booksRepository.getBooks()
                     Success(books)
@@ -64,24 +58,20 @@ class BookshelfViewModel(private val booksRepository: BooksRepository) : ViewMod
 
     companion object {
         /**
-         * Retrieves the [booksRepository] and passes it on creation of [BookshelfViewModel]
+         * Retrieves the [booksRepository] and passes it on creation of [BooksViewModel]
          */
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[APPLICATION_KEY] as BookshelfApplication)
                 val booksRepository = application.container.booksRepository
-                BookshelfViewModel(booksRepository)
+                BooksViewModel(booksRepository)
             }
         }
     }
-
-
-
-
 }
 
 /**
- * Declarations for the ui state
+ * The declarations for the ui state
  *
  * @property Error The error ui state
  * @property Loading The loading ui state
