@@ -3,16 +3,21 @@ package com.example.bookshelf.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.LoadingIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -35,26 +40,22 @@ import com.example.bookshelf.ui.theme.BookshelfTheme
  * @param modifier The modifier for the layout
  */
 @Composable
-fun BooksScreen(bookshelfUiState: BookshelfUiState, retryAction: () -> Unit, modifier: Modifier = Modifier) {
+fun BooksScreen(
+    bookshelfUiState: BookshelfUiState, retryAction: () -> Unit, modifier: Modifier = Modifier
+) {
     when (bookshelfUiState) {
-        is BookshelfUiState.Loading -> LoadingScreen(modifier = modifier.fillMaxSize())
-        is BookshelfUiState.Success -> BooksGrid(bookshelfUiState.books, modifier.fillMaxWidth())
-        is BookshelfUiState.Error -> ErrorScreen(retryAction, modifier = modifier.fillMaxSize())
+        is BookshelfUiState.Loading -> LoadingScreen(modifier = modifier)
+        is BookshelfUiState.Success -> BooksGrid(books = bookshelfUiState.books, modifier)
+        is BookshelfUiState.Error -> ErrorScreen(retryAction = retryAction, modifier = modifier)
     }
 }
 
-/**
- * Displays a loading image
- *
- *  @param modifier The modifier for the layout
- */
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun LoadingScreen(modifier: Modifier = Modifier) {
-    Image(
-        modifier = modifier.size(200.dp),
-        painter = painterResource(R.drawable.loading_img),
-        contentDescription = stringResource(R.string.loading)
-    )
+    Surface(modifier = modifier) {
+        LoadingIndicator()
+    }
 }
 
 /**
@@ -72,37 +73,56 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
     ) {
         Image(painterResource(R.drawable.ic_connection_error), " ")
         Text(stringResource(R.string.loading_failed), Modifier.padding(16.dp))
-        Button(onClick = retryAction)
-        {
+        Button(onClick = retryAction) {
             Text(stringResource(R.string.retry))
         }
     }
 }
 
 /**
- * Displays a grid with book images and titles
+ * A lazy vertical grid to display a list of books.
  *
  * @param books The list of books to display
  * @param modifier The modifier for the layout
  */
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BooksGrid(books: Books, modifier: Modifier = Modifier) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(150.dp),
         modifier = modifier,
         content = {
-            items(books.items, key = {item -> item.id}) { item ->
-                AsyncImage(
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(item.volumeInfo.imageLinks.thumbnail
-                            .replace("http", "https"))
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    error = painterResource(id = R.drawable.ic_broken_image),
-                    placeholder = painterResource(id = R.drawable.loading_img),
-                    contentScale = ContentScale.Crop
-                )
+            items(books.items, key = { item -> item.id }) { item ->
+                val expanded = remember { mutableStateOf(false) }
+                OutlinedCard(
+                    onClick = { expanded.value = !expanded.value },
+                    modifier = Modifier
+                        .padding(4.dp)
+                        .size(height = 300.dp, width = 100.dp)
+                ) {
+                    AsyncImage(
+                        modifier = Modifier.weight(1f),
+                        model = ImageRequest.Builder(context = LocalContext.current).data(
+                            item.volumeInfo.imageLinks.thumbnail.replace("http", "https")
+                        ).crossfade(true).build(),
+                        contentDescription = item.volumeInfo.title,
+                        error = painterResource(id = R.drawable.ic_broken_image),
+                        placeholder = painterResource(id = R.drawable.loading_img),
+                        contentScale = ContentScale.Crop
+                    )
+                    if (expanded.value) {
+                        Column(modifier = Modifier.padding(8.dp)) {
+                            Text(
+                                text = item.volumeInfo.title,
+                                style = MaterialTheme.typography.titleSmallEmphasized
+                            )
+                            Text(
+                                text = item.volumeInfo.authors.joinToString(),
+                                style = MaterialTheme.typography.bodySmallEmphasized
+                            )
+                        }
+                    }
+                }
             }
         }
     )

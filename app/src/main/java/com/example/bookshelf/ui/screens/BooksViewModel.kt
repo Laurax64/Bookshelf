@@ -46,11 +46,9 @@ class BooksViewModel(private val booksRepository: BooksRepository) : ViewModel()
                 try {
                     val books = booksRepository.getBooks()
                     Success(books)
-                    }
-                catch (e: IOException) {
+                    } catch (_: IOException) {
                     Error
-                }
-                catch (e: HttpException) {
+                } catch (_: HttpException) {
                     Error
                 }
         }
