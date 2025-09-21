@@ -10,7 +10,7 @@ import org.junit.Test
 class NetworkBookshelfRepositoryTest {
     @Test
     fun networkBookshelfBooksRepository_getBooks_verifyBooks() =
-        runTest() {
+        runTest {
             val repository = NetworkBookshelfRepository(
                 bookshelfApiService = FakeBookshelfApiService()
             )
